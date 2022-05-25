@@ -1,0 +1,82 @@
+<html>
+
+<head>
+    <title>Delta Meet</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script>
+        AFRAME.registerComponent('zoom-controls', {
+            schema: {
+                min: { type: "number", default: 5 },
+                max: { type: "number", default: 120 }
+            },
+            init: function () {
+                let self = this;
+                let sceneEl = document.querySelector("a-scene");
+                self.camera = sceneEl.querySelector("#camera");
+                console.log('min: ', self.data.min);
+                console.log('max: ', self.data.max);
+                window.addEventListener("keydown", event => {
+                    console.log(event.keyCode)
+                    event.keyCode === 38 ? amount = -5 : amount = 5
+                    //  let amount = Math.sign(event.deltaY)*5 ;              
+                    // amount = -5;
+                    let fov = Number(self.camera.getAttribute('camera').fov);
+                    let adjust = amount + fov;
+                    if (adjust < self.data.min) { adjust = self.data.min; }
+                    if (adjust > self.data.max) { adjust = self.data.max; }
+                    self.camera.setAttribute('camera', 'fov', adjust);
+                });
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <h1 class="title">Delta Meet</h1>
+    <p id="notification" hidden></p>
+    <div class="entry-modal" id="entry-modal">
+        <p>Create or Join Meeting</p>
+        <input id="room-input" class="room-input" placeholder="Enter Room ID">
+        <div>
+            <button onclick="createRoom()">Create Room</button>
+            <button onclick="joinRoom()">Join Room</button>
+        </div>
+    </div>
+    <div class="meet-area">
+        <!-- Remote Video Element-->
+        <video id="remote-video" style="display: none;"></video>
+
+        <!-- Local Video Element-->
+        <video id="local-video" style="display: none;"></video>
+        <div class="meet-controls-bar">
+            <button onclick="startScreenShare()">Screen Share</button>
+        </div>
+    </div>
+    <p>
+        <a-scene>
+            <!-- <a-entity id="rig" movement-controls position="25 0 25">
+                <a-entity id="camera" camera="active: true" look-controls zoom-controls="min:5; max: 140" fov="100" position="0 0 0"></a-entity>    
+                
+            </a-entity> -->
+            <!-- <a-entity id="camera" camera="active: true" look-controls zoom-controls="min:5; max: 140" fov="100" position="0 0 0"></a-entity>     -->
+            <!-- <a-assets>
+                    <a-asset-item id="cityModel" src="wide_monitor_model/scene.gltf"></a-asset-item>
+                  </a-assets>
+                  <a-entity position="-3.5 0.5 -3" rotation="20 30 0" gltf-model="#cityModel" modify-materials></a-entity>
+                  <a-entity position="3.5 0.5 -3" rotation="20 -30 0" gltf-model="#cityModel" modify-materials></a-entity> -->
+
+            <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+            <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+            <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+            <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+            <!-- <a-sky color="#ECECEC"></a-sky> -->
+        </a-scene>
+    </p>
+</body>
+
+<script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+<script src="script.js"></script>
+
+
+</html>

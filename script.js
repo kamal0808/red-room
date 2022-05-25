@@ -45,9 +45,36 @@ function setLocalStream(stream) {
 }
 function setRemoteStream(stream) {
 
-    let video = document.getElementById("remote-video");
-    video.srcObject = stream;
-    video.play();
+    let video1 = document.getElementById("remote-video");
+    video1.srcObject = stream;
+    video1.play();
+    var video = document.createElement("a-video");
+          video.setAttribute("src", "#remote-video");
+          video.setAttribute("width", "2");
+          video.setAttribute("height", "1.125");
+          video.setAttribute("rotation", "20 -30 0");
+          video.setAttribute("position", "1 2 -0.3");
+          video.addEventListener("loaded", function () {
+            document.getElementById("videoclip").load();
+            document.getElementById("videoclip").play();
+          });
+          document.querySelector("a-scene").appendChild(video);
+        //   this.remove();
+
+
+          var video2 = document.createElement("a-video");
+          video2.setAttribute("src", "#remote-video");
+          video2.setAttribute("width", "2");
+          video2.setAttribute("height", "1.125");
+          video2.setAttribute("rotation", "20 30 0");
+          video2.setAttribute("position", "-0.5 2 -0.5");
+          video2.addEventListener("loaded", function () {
+            document.getElementById("videoclip").load();
+            document.getElementById("videoclip").play();
+          });
+          document.querySelector("a-scene").appendChild(video2);
+          this.remove();
+
 }
 
 function hideModal() {
