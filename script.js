@@ -47,6 +47,7 @@ function setRemoteStream(stream) {
 
     let video1 = document.getElementById("remote-video");
     video1.srcObject = stream;
+    video1.muted = true;
     video1.play();
     
 
