@@ -65,18 +65,28 @@
                   </a-assets>
                   <a-entity position="-3.5 0.5 -3" rotation="20 30 0" gltf-model="#cityModel" modify-materials></a-entity>
                   <a-entity position="3.5 0.5 -3" rotation="20 -30 0" gltf-model="#cityModel" modify-materials></a-entity> -->
+                  <a-assets>
+                    <canvas id="myCanvas"></canvas>
+                </a-assets>
+                <a-curvedimage src="#remote-video" height="3.927" radius="5" theta-length="90" theta-start="135"></a-curvedimage>
+                <a-curvedimage
+                    src="#remote-video"
+                    radius="2"
+                    theta-length="30"
+                    rotation="0 160 0"
+                    >        
+                </a-curvedimage>
 
-            <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+                 <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
             <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
             <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
             <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-            <!-- <a-sky color="#ECECEC"></a-sky> -->
+            <a-sky color="#ECECEC"></a-sky>
         </a-scene>
     </p>
 </body>
 
 <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
 <script src="script.js"></script>
-
 
 </html>
