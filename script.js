@@ -4,8 +4,8 @@ var room_id;
 var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 var local_stream;
 var screenStream;
-var peer = null;
-var currentPeer = null
+var peer = null, peer2 = null;
+var currentPeer = null, currentPeer2 = null
 var screenSharing = false
 function createRoom() {
     console.log("Creating Room")
@@ -16,6 +16,7 @@ function createRoom() {
     }
     room_id = PRE + room + SUF;
     peer = new Peer(room_id)
+    peer2 = new Peer("screens")
     peer.on('open', (id) => {
         console.log("Peer Connected with ID: ", id)
         hideModal()
@@ -28,11 +29,31 @@ function createRoom() {
         notify("Waiting for peer to join.")
     })
     peer.on('call', (call) => {
+        console.log('hey someone joined')
         call.answer(local_stream);
         call.on('stream', (stream) => {
             setRemoteStream(stream)
         })
         currentPeer = call;
+    })
+    peer2.on('open', (id) => {
+        console.log("Peer Connected with ID: ", id)
+        hideModal()
+        getUserMedia({ video: true, audio: true }, (stream) => {
+            local_stream = stream;
+            setLocalStream(local_stream)
+        }, (err) => {
+            console.log(err)
+        })
+        notify("Waiting for peer to join.")
+    })
+    peer2.on('call', (call) => {
+        console.log('hey someone joined')
+        call.answer(local_stream);
+        call.on('stream', (stream) => {
+            setRemoteStream(stream)
+        })
+        currentPeer2 = call;
     })
 }
 
@@ -43,12 +64,20 @@ function setLocalStream(stream) {
     video.muted = true;
     video.play();
 }
-function setRemoteStream(stream) {
+function setRemoteStream(stream1, stream2) {
 
     let video1 = document.getElementById("remote-video");
-    video1.srcObject = stream;
+    video1.srcObject = stream1;
     video1.muted = true;
     video1.play();
+
+    if(stream2) {
+        console.log('setting second stream')
+        let video2 = document.getElementById("remote-video-2");
+        video2.srcObject = stream2;
+        video2.muted = true;
+        video2.play();
+    }
     
 
 // document.querySelector('a-scene').innerHTML += `  <a-entity material="shader: flat; side: double; src: #remote-video" geometry="primitive: cylinder; radius: 5; height: 3.6815; open-ended: true; theta-start: 142.5; theta-length: 75; position="0 1.5 0" rotation="0 0 0" scale="-1 1 1"></a-entity>`;
@@ -108,6 +137,7 @@ function joinRoom() {
     room_id = PRE + room + SUF;
     hideModal()
     peer = new Peer()
+    peer2 = new Peer()
     peer.on('open', (id) => {
         console.log("Connected with Id: " + id)
         getUserMedia({ video: true, audio: true }, (stream) => {
@@ -116,9 +146,27 @@ function joinRoom() {
             notify("Joining peer")
             let call = peer.call(room_id, stream)
             call.on('stream', (stream) => {
+                console.log('multiple', stream)
                 setRemoteStream(stream);
             })
             currentPeer = call;
+        }, (err) => {
+            console.log(err)
+        })
+
+    })
+    peer2.on('open', (id) => {
+        console.log("Connected with Id: " + id)
+        getUserMedia({ video: true, audio: true }, (stream) => {
+            local_stream = stream;
+            setLocalStream(local_stream)
+            notify("Joining peer")
+            let call = peer2.call("screens", stream)
+            call.on('stream', (stream) => {
+                console.log('multiple', stream)
+                setRemoteStream(null, stream);
+            })
+            currentPeer2 = call;
         }, (err) => {
             console.log(err)
         })
@@ -141,10 +189,20 @@ function startScreenShare() {
                 return s.track.kind == videoTrack.kind;
             })
             sender.replaceTrack(videoTrack)
-            screenSharing = true
+            navigator.mediaDevices.getDisplayMedia({ video: true }).then((stream2) => {
+                let videoTrack2 = stream2.getVideoTracks()[0];
+                let sender2 = currentPeer2.peerConnection.getSenders().find(function (s) {
+                    return s.track.kind == videoTrack2.kind;
+                })
+                console.log('found sender 2', sender2)
+                sender2.replaceTrack(videoTrack2) 
+                screenSharing = true
+            });
         }
-        console.log(screenStream)
     })
+    .catch(error => {
+        console.log('err', error)
+    }) 
 }
 
 function stopScreenSharing() {
