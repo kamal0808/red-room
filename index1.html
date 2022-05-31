@@ -10,7 +10,7 @@
     <!-- <script src="https://unpkg.com/aframe-supercraft-loader@1.1.3/dist/aframe-supercraft-loader.js"></script> -->
     </a-scene>
     <meta name="apple-mobile-web-app-capable" />
-    
+
 </head>
 
 <body>
@@ -35,62 +35,35 @@
             <button onclick="startScreenShare()">Screen Share</button>
         </div>
     </div>
-
-
     <p>
-
-
-
-
-
         <a-scene inspector="https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js">
             <a-entity id="rig" position="0 4 0">
 
                 <a-camera id="cam" look-controls>
-                    <a-cursor color="orange" fuse="true" fuseduration = "1500"  />
-                   
+                    <a-cursor color="orange" fuse="true" fuseduration="1500" />
+
                 </a-camera>
             </a-entity>
+            <!-- Upper screen -->
+            <a-curvedimage position="0 -0.93 2.16" rotation="45.78 0 0" src="#remote-video" height="1.027" radius="5"
+                theta-length="25=0" theta-start="165" material="" geometry="thetaLength: 25; thetaStart: 165">
+            </a-curvedimage>
+            <!-- Middle screen -->
+            <a-curvedimage position="0 1.7 3.2" src="#remote-video-2" height="1.027" radius="5" theta-length="25=0"
+                theta-start="165"></a-curvedimage>
+            <!-- Right screen -->
+            <a-curvedimage position="-3.6 1.67 0.89" src="#remote-video-2" height="1.027" radius="5" theta-length="25=0"
+                theta-start="140" material="" geometry="thetaLength: 25; thetaStart: 136.76" rotation="0.08 -47.39 0">
+            </a-curvedimage>
+            <!-- Lower screen -->
+            <a-curvedimage position="0 4.69 1.76" rotation="-51.43 0 0" src="#remote-video" height="1.027" radius="5"
+                theta-length="25=0" theta-start="165" material="" geometry="thetaLength: 25; thetaStart: 165">
+            </a-curvedimage>
+            <!-- Left screen -->
+            <a-curvedimage position="3.36 1.81 1.43" src="#remote-video-2" height="1.027" radius="5" theta-length="25=0"
+                theta-start="190" material="" geometry="thetaLength: 25; thetaStart: 190" rotation="0.08 45 0">
+            </a-curvedimage>
 
-            <!-- <a-curvedimage id="panandzoom" position="0 2.75 3.2" src="image1.png" height="1.027" radius="5" theta-length="25=0" theta-start="165"></a-curvedimage>
-                <a-curvedimage position="0 1.7 3.2" src="image2.png" height="1.027" radius="5" theta-length="25=0" theta-start="165"></a-curvedimage>
-                <a-curvedimage position="2 1.7 3.2" rotation="0 0 0" src="image1.png" height="1.027" radius="5" theta-length="25=0" theta-start="165"></a-curvedimage>
-                <a-curvedimage position="-2 1.7 3.2" rotation="0 0 0" src="image1.png" height="1.027" radius="5" theta-length="25=0" theta-start="165"></a-curvedimage>
-                <a-curvedimage position="0 0.65 3.2" src="image2.png" height="1.027" radius="5" theta-length="25=0" theta-start="165"></a-curvedimage> -->
-<!-- 
-            <a-entity id="rig" position="0 0 0">
-                <a-entity camera="active: true" position="0 1.6 0" wasd-controls="" rotation="" look-controls=""
-                    aframe-injected="" data-aframe-inspector-original-camera="" visible=""></a-entity>
-                <a-entity camera="fov: 120; zoom: 3.42" position="0 0 0" rotation="" active="true"></a-entity>
-                <a-entity camera="fov: 120; zoom: 3.42; active: false" position="2.41 1.72 0" rotation=""></a-entity>
-                <a-entity camera="fov: 120; zoom: 3.42; active: false; wasd-controls: true; look-controls: true"
-                    position="0.41 1.72 0" rotation=""></a-entity>
-
-            </a-entity> -->
-            <!-- <a-curvedimage mousecontrol id="panandzoom" position="0 2.75 3.2" src="#remote-video" height="1.027"
-            radius="5" theta-length="25=0" theta-start="165"></a-curvedimage> -->
-            
-            <a-curvedimage position="0 -0.93 2.16" rotation="45.78 0 0" src="#remote-video" height="1.027" radius="5" theta-length="25=0" theta-start="165" material="" geometry="thetaLength: 25; thetaStart: 165"></a-curvedimage>
-            <!-- <a-curvedimage position="0 0.68 3.2" rotation="23 0 0 " src="#remote-video" height="1.027" radius="5"
-            theta-length="25=0" theta-start="165"></a-curvedimage> -->
-        <a-curvedimage position="0 1.7 3.2" src="#remote-video-2" height="1.027" radius="5"
-            theta-length="25=0" theta-start="165"></a-curvedimage>
-
-            <a-curvedimage position="0 4.69 1.76" rotation="-51.43 0 0" src="#remote-video" height="1.027" radius="5" theta-length="25=0" theta-start="165" material="" geometry="thetaLength: 25; thetaStart: 165"></a-curvedimage>
-            <!-- <a-curvedimage position="0 2.7 3.2" rotation="-23 0 0 " src="#remote-video" height="1.027" radius="5"
-            theta-length="25=0" theta-start="165"></a-curvedimage> -->
-        <!-- <a-curvedimage position="2 1.7 3.2" src="#remote-video" height="1.027" radius="5"
-            theta-length="25=0" theta-start="165"></a-curvedimage>
-        <a-curvedimage position="-2.5 1.7 3.2" rotation="0 0 0" src="#remote-video" height="1.027" radius="5"
-            theta-length="25=0" theta-start="165"></a-curvedimage>
-        <a-curvedimage position="0 0.65 3.2" src="#remote-video" height="1.027" radius="5"
-            theta-length="25=0" theta-start="165"></a-curvedimage> -->
-
-
-            <!-- <a-box src="image1.png" scale="2 2 2" position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"
-                scale="1.5 1 1"></a-box> -->
-            <!-- <a-cylinder position="1 0.75 -3" radius="1" segment height="1.5" color="#FFC65D"></a-cylinder> -->
-            <!-- <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder> -->
             <a-plane src="image1.png" position="0 0 -4" rotation="-90 0 0" width="4" height="42" color="#7BC8A4">
             </a-plane>
             <a-sky color="#ECECEC"></a-sky>
@@ -109,19 +82,19 @@
         try {
             console.log(event)
 
-let x = event.deltaX;
-let y = event.deltaY;
+            let x = event.deltaX;
+            let y = event.deltaY;
 
-let currentX = rig.getAttribute("position").x;
-let currentY = rig.getAttribute("position").z;
-console.log(`${x*0.1} ${y*0.1} 0`)
-console.log("position", `${x*0.01 + currentX} ${y*0.01 + currentY} 0`)
-rig.setAttribute("position", `${x*0.002 + currentX} 0 ${y*0.002 + currentY}`)
+            let currentX = rig.getAttribute("position").x;
+            let currentY = rig.getAttribute("position").z;
+            console.log(`${x * 0.1} ${y * 0.1} 0`)
+            console.log("position", `${x * 0.01 + currentX} ${y * 0.01 + currentY} 0`)
+            rig.setAttribute("position", `${x * 0.002 + currentX} 0 ${y * 0.002 + currentY}`)
         }
-        catch(e) {
+        catch (e) {
             alert(e);
         }
-      
+
     });
     // AFRAME.registerComponent('mousecontrol', {
     //     schema: {
