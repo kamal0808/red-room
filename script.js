@@ -1,5 +1,4 @@
-const PRE = "DELTA"
-const SUF = "MEET"
+const PRE = "SCREEN-"
 var room_id;
 var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 var local_stream;
@@ -14,56 +13,56 @@ function createRoom() {
         alert("Please enter room number")
         return;
     }
-    room_id = PRE + room + SUF;
+    room_id = PRE + room;
     peer = new Peer(room_id)
     peer2 = new Peer("screens")
     peer.on('open', (id) => {
         console.log("Peer Connected with ID: ", id)
         hideModal()
-        getUserMedia({ video: true, audio: true }, (stream) => {
-            local_stream = stream;
-            setLocalStream(local_stream)
-        }, (err) => {
-            console.log(err)
-        })
+        // getUserMedia({ video: true, audio: true }, (stream) => {
+        //     local_stream = stream;
+        //     setLocalStream(local_stream)
+        // }, (err) => {
+        //     console.log(err)
+        // })
         notify("Waiting for peer to join.")
     })
     peer.on('call', (call) => {
         console.log('hey someone joined')
-        call.answer(local_stream);
-        call.on('stream', (stream) => {
-            setRemoteStream(stream)
-        })
-        currentPeer = call;
+        // call.answer(local_stream);
+        // call.on('stream', (stream) => {
+        //     setRemoteStream(stream)
+        // })
+        // currentPeer = call;
     })
     peer2.on('open', (id) => {
         console.log("Peer Connected with ID: ", id)
-        hideModal()
-        getUserMedia({ video: true, audio: true }, (stream) => {
-            local_stream = stream;
-            setLocalStream(local_stream)
-        }, (err) => {
-            console.log(err)
-        })
+        // hideModal()
+        // getUserMedia({ video: true, audio: true }, (stream) => {
+        //     local_stream = stream;
+        //     // setLocalStream(local_stream)
+        // }, (err) => {
+        //     console.log(err)
+        // })
         notify("Waiting for peer to join.")
     })
     peer2.on('call', (call) => {
         console.log('hey someone joined')
-        call.answer(local_stream);
-        call.on('stream', (stream) => {
-            setRemoteStream(stream)
-        })
+        // call.answer(local_stream);
+        // call.on('stream', (stream) => {
+        //     setRemoteStream(stream)
+        // })
         currentPeer2 = call;
     })
 }
 
-function setLocalStream(stream) {
+// function setLocalStream(stream) {
 
-    let video = document.getElementById("local-video");
-    video.srcObject = stream;
-    video.muted = true;
-    video.play();
-}
+//     let video = document.getElementById("local-video");
+//     video.srcObject = stream;
+//     video.muted = true;
+//     video.play();
+// }
 function setRemoteStream(stream1, stream2) {
 
     let video1 = document.getElementById("remote-video");
@@ -140,36 +139,36 @@ function joinRoom() {
     peer2 = new Peer()
     peer.on('open', (id) => {
         console.log("Connected with Id: " + id)
-        getUserMedia({ video: true, audio: true }, (stream) => {
-            local_stream = stream;
-            setLocalStream(local_stream)
-            notify("Joining peer")
-            let call = peer.call(room_id, stream)
-            call.on('stream', (stream) => {
-                console.log('multiple', stream)
-                setRemoteStream(stream);
-            })
-            currentPeer = call;
-        }, (err) => {
-            console.log(err)
-        })
+        // getUserMedia({ video: true, audio: true }, (stream) => {
+        //     local_stream = stream;
+        //     setLocalStream(local_stream)
+        //     notify("Joining peer")
+        //     let call = peer.call(room_id, stream)
+        //     call.on('stream', (stream) => {
+        //         console.log('multiple', stream)
+        //         setRemoteStream(stream);
+        //     })
+        //     currentPeer = call;
+        // }, (err) => {
+        //     console.log(err)
+        // })
 
     })
     peer2.on('open', (id) => {
         console.log("Connected with Id: " + id)
-        getUserMedia({ video: true, audio: true }, (stream) => {
-            local_stream = stream;
-            setLocalStream(local_stream)
-            notify("Joining peer")
-            let call = peer2.call("screens", stream)
-            call.on('stream', (stream) => {
-                console.log('multiple', stream)
-                setRemoteStream(null, stream);
-            })
-            currentPeer2 = call;
-        }, (err) => {
-            console.log(err)
-        })
+        // getUserMedia({ video: true, audio: true }, (stream) => {
+        //     local_stream = stream;
+        //     setLocalStream(local_stream)
+        //     notify("Joining peer")
+        //     let call = peer2.call("screens", stream)
+        //     call.on('stream', (stream) => {
+        //         console.log('multiple', stream)
+        //         setRemoteStream(null, stream);
+        //     })
+        //     currentPeer2 = call;
+        // }, (err) => {
+        //     console.log(err)
+        // })
 
     })
 }
@@ -179,6 +178,7 @@ function startScreenShare() {
         stopScreenSharing()
     }
     navigator.mediaDevices.getDisplayMedia({ video: true }).then((stream) => {
+        local_stream = stream;
         screenStream = stream;
         let videoTrack = screenStream.getVideoTracks()[0];
         videoTrack.onended = () => {
