@@ -3,70 +3,12 @@ var room_id;
 var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 var local_stream;
 var screenStream;
-var peer = null, peer2 = null;
+// var peer = null, peer2 = null;
 var currentPeer = null, currentPeer2 = null
 var screenSharing = false
 
 
-async function createRoom(room_id) {
-    console.log("Creating Room")
-    peer = new Peer(room_id)
-    console.log('created')
-    let screenStream = await startScreenShare();
-    peer.on('connection',  (conn) => {
-        conn.on('open',  (data) => {
-          // when a listener connects, call them!
-          console.log('created')
-          peer.call(
-            conn.peer,
-            screenStream
-          )
-        });
-      });
 
-
-    // peer.on('open', async (id) => {
-    //     console.log("Peer Connected with ID: ", id)
-    //     hideModal()
-    //     local_stream = await startScreenShare()
-    //     console.log(local_stream)
-        
-    //     // getUserMedia({ video: true, audio: true }, (stream) => {
-    //     //     local_stream = stream;
-    //     //     setLocalStream(local_stream)
-    //     // }, (err) => {
-    //     //     console.log(err)
-    //     // })
-    //     notify("Waiting for peer to join.")
-    // })
-    // peer.on('call', (call) => {
-    //     console.log('hey someone joined')
-    //     call.answer(local_stream);
-    //     // call.on('stream', (stream) => {
-    //     //     setRemoteStream(stream)
-    //     // })
-    //     // currentPeer = call;
-    // })
-    // peer2.on('open', (id) => {
-    //     console.log("Peer Connected with ID: ", id)
-    //     // hideModal()
-    //     // getUserMedia({ video: true, audio: true }, (stream) => {
-    //     //     local_stream = stream;
-    //     //     // setLocalStream(local_stream)
-    //     // }, (err) => {
-    //     //     console.log(err)
-    //     // })
-    //     notify("Waiting for peer to join.")
-    // })
-    // peer2.on('call', (call) => {
-    //     console.log('hey someone joined')
-    //     call.answer(local_stream);
-    //     // call.on('stream', (stream) => {
-    //     //     setRemoteStream(stream)
-    //     // })
-    //     currentPeer2 = call;
-    // })
-}
 
 // function setLocalStream(stream) {
 

@@ -1,31 +1,88 @@
 <html>
 
 <head>
-    <title>Delta Meet</title>
+    <title>Elly VR</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 
 <body>
-    <h1 class="title">Delta Meet</h1>
+    <h1 class="title">Elly VR</h1>
     <p id="notification" hidden></p>
-    <div class="entry-modal" id="entry-modal">
+    <p>
+    <div class="screen-tab">
         <p>Screen 1</p>
         <div>
-            <button onclick="createRoom('1')">Add</button>
+            <button onclick="shareScreen(0)">Screen share</button>
         </div>
     </div>
-    <div class="meet-area">
-       
-        <div class="meet-controls-bar">
-            <button onclick="startScreenShare()">Screen Share</button>
+    </p>
+    <p>
+    <div class="screen-tab">
+        <p>Screen 2</p>
+        <div>
+            <button onclick="shareScreen(1)">Screen share</button>
         </div>
     </div>
-    
+    </p>
+    <p>
+    <div class="screen-tab">
+        <p>Screen 3</p>
+        <div>
+            <button onclick="shareScreen(2)">Screen share</button>
+        </div>
+    </div>
+    </p>
+    <p>
+    <div class="screen-tab">
+        <p>Screen 4</p>
+        <div>
+            <button onclick="shareScreen(3)">Screen share</button>
+        </div>
+    </div>
+    </p>
+    <p>
+    <div class="screen-tab">
+        <p>Screen 5</p>
+        <div>
+            <button onclick="shareScreen(4)">Screen share</button>
+        </div>
+    </div>
+    </p>
+
 </body>
 
 <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
-<script src="script.js"></script>
 <script>
-    createRoom('1');
+
+    let peers = [
+        new Peer('1'),
+        new Peer('2'),
+        new Peer('3'),
+        new Peer('4'),
+        new Peer('5')
+    ]
+
+    let connections = [];
+
+    peers.forEach((eachPeer, screenNumber) => {
+        eachPeer.on('connection', conn => {
+            console.log('screen ' + screenNumber + ' connected');
+            connections.push(conn);
+            conn.on('open', (data) => {
+                // when a listener connects, call them!
+                console.log('screen ' + screenNumber + ' open')
+            });
+        })
+    })
+
+    async function shareScreen(screenNumber) {
+        let screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+        peers[screenNumber].call(
+                    connections[screenNumber].peer,
+                    screenStream
+                )
+    }
 </script>
+<script src="script.js"></script>
+
 </html>

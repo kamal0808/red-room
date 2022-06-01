@@ -82,17 +82,21 @@
 <body>
     <h1 class="title">Delta Meet</h1>
     <p id="notification" hidden></p>
-    <div class="entry-modal" id="entry-modal">
+    <!-- <div class="entry-modal" id="entry-modal">
         <p>Create or Join Meeting</p>
         <input value="1" id="room-input" class="room-input" placeholder="Enter Room ID">
         <div>
             <button onclick="createRoom()">Create Room</button>
             <button onclick="joinRoom()">Join Room</button>
         </div>
-    </div>
+    </div> -->
     <div class="meet-area">
         <!-- Remote Video Element-->
-        <video id="remote-video" autoplay loop="true"></video>
+        <video id="remote-video-1" autoplay loop="true"></video>
+        <video id="remote-video-2" autoplay loop="true"></video>
+        <video id="remote-video-3" autoplay loop="true"></video>
+        <video id="remote-video-4" autoplay loop="true"></video>
+        <video id="remote-video-5" autoplay loop="true"></video>
 
         <!-- Local Video Element-->
         <video id="local-video" style="display: none;"></video>
@@ -117,33 +121,26 @@
 
             </a-entity>
 
-            <a-assets>
-                <!-- <video src="elly-intro.mp4" id="intro-video"></video> -->
-                <!-- <video id="remote-video" autoplay="true" muted  src="elly-intro.mp4" ></video> -->
-                <video id="remote-video-2" src="elly-intro.mp4"></video>
-
-            </a-assets>
-
             <!-- Upper screen -->
             <a-curvedimage cursor-listener id="upper-screen" position="0 -0.93 2.16" rotation="45.78 0 0"
-                src="#remote-video" height="1.027" radius="5" theta-length="25=0" theta-start="165" material=""
+                src="#remote-video-1" height="1.027" radius="5" theta-length="25=0" theta-start="165" material=""
                 geometry="thetaLength: 25; thetaStart: 165">
             </a-curvedimage>
             <!-- Middle screen -->
             <a-curvedimage cursor-listener id="middle-screen" position="0 1.7 3.2" src="#remote-video-2" height="1.027"
                 radius="5" theta-length="25=0" theta-start="165"></a-curvedimage>
             <!-- Right screen -->
-            <a-curvedimage id="right-screen" cursor-listener position="-3.6 1.67 0.89" src="#remote-video-2"
+            <a-curvedimage id="right-screen" cursor-listener position="-3.6 1.67 0.89" src="#remote-video-3"
                 height="1.027" radius="5" theta-length="25=0" theta-start="140" material=""
                 geometry="thetaLength: 25; thetaStart: 136.76" rotation="0.08 -47.39 0">
             </a-curvedimage>
             <!-- Lower screen -->
             <a-curvedimage cursor-listener id="lower-screen" position="0 4.69 1.76" rotation="-51.43 0 0"
-                src="#remote-video" height="1.027" radius="5" theta-length="25=0" theta-start="165" material=""
+                src="#remote-video-4" height="1.027" radius="5" theta-length="25=0" theta-start="165" material=""
                 geometry="thetaLength: 25; thetaStart: 165">
             </a-curvedimage>
             <!-- Left screen -->
-            <a-curvedimage cursor-listener id="left-screen" position="3.36 1.81 1.43" src="#remote-video-2"
+            <a-curvedimage cursor-listener id="left-screen" position="3.36 1.81 1.43" src="#remote-video-5"
                 height="1.027" radius="5" theta-length="25=0" theta-start="190" material=""
                 geometry="thetaLength: 25; thetaStart: 190" rotation="0.08 45 0">
             </a-curvedimage>
@@ -186,7 +183,7 @@
 
     });
 
-    let video1 = document.getElementById("remote-video");
+    let video1 = document.getElementById("remote-video-1");
     video1.src = 'elly-intro-long.mp4';
     video1.muted = true;
     video1.play();
@@ -196,21 +193,98 @@
     video2.muted = true;
     video2.play();
 
+    let video3 = document.getElementById("remote-video-3");
+    video3.src = 'elly-intro-long.mp4';
+    video3.muted = true;
+    video3.play();
 
-    const peer24 = new Peer();
+    let video4 = document.getElementById("remote-video-4");
+    video4.src = 'elly-intro-long.mp4';
+    video4.muted = true;
+    video4.play();
 
-    peer24.on('open', () => {
+    let video5 = document.getElementById("remote-video-5");
+    video5.src = 'elly-intro-long.mp4';
+    video5.muted = true;
+    video5.play();
+
+
+
+
+    let peer1 = new Peer()
+    let peer2 = new Peer()
+    let peer3 = new Peer()
+    let peer4 = new Peer()
+    let peer5 = new Peer()
+
+    peer1.on('open', () => {
         // connect to the streamer so that they will call us
         console.log('calling')
-        peer24.connect("1");
+        peer1.connect("1");
     });
 
-    peer24.on("call", (call) => {
+    peer1.on("call", (call) => {
+        console.log('call received')
         call.on("stream", (remoteStream) => {
-            // audio.muted = false;
-            // audio.srcObject = remoteStream;
+            console.log('stream received')
             video1.srcObject = remoteStream;
             video1.play()
+        })
+        call.answer(null);
+    });
+
+    peer2.on('open', () => {
+        // connect to the streamer so that they will call us
+        console.log('calling')
+        peer2.connect("2");
+    });
+
+    peer2.on("call", (call) => {
+        call.on("stream", (remoteStream) => {
+            video2.srcObject = remoteStream;
+            video2.play()
+        })
+        call.answer(null);
+    });
+
+    peer3.on('open', () => {
+        // connect to the streamer so that they will call us
+        console.log('calling')
+        peer3.connect("3");
+    });
+
+    peer3.on("call", (call) => {
+        call.on("stream", (remoteStream) => {
+            video3.srcObject = remoteStream;
+            video3.play()
+        })
+        call.answer(null);
+    });
+
+    peer4.on('open', () => {
+        // connect to the streamer so that they will call us
+        console.log('calling')
+        peer4.connect("4");
+    });
+
+    peer4.on("call", (call) => {
+        call.on("stream", (remoteStream) => {
+            video4.srcObject = remoteStream;
+            video4.play()
+        })
+        call.answer(null);
+    });
+
+    peer5.on('open', () => {
+        // connect to the streamer so that they will call us
+        console.log('calling')
+        peer5.connect("5");
+    });
+
+    peer5.on("call", (call) => {
+        call.on("stream", (remoteStream) => {
+            video5.srcObject = remoteStream;
+            video5.play()
         })
         call.answer(null);
     });
