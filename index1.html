@@ -80,83 +80,72 @@
 </head>
 
 <body>
-    <h1 class="title">Elly VR Receiver</h1>
-    <p id="notification" hidden></p>
-    <!-- <div class="entry-modal" id="entry-modal">
-        <p>Create or Join Meeting</p>
-        <input value="1" id="room-input" class="room-input" placeholder="Enter Room ID">
-        <div>
-            <button onclick="createRoom()">Create Room</button>
-            <button onclick="joinRoom()">Join Room</button>
+   
+    <a-scene inspector="https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js">
+        <a-entity id="rig" position="0 4 0" rotation="0 0 0">
+            <!-- <a-entity id="rig" position="-0.57 0.04 0.29" rotation="-5.44 -78.39 2.47"> -->
+            <!-- looking at right screen -->
+            <!-- position="-0.57 0.04 0.29" rotation="-5.44 -78.39 2.47" -->
+            <a-camera id="cam" active="true" look-controls wasd-controls="acceleration:10">
+                <!-- <a-cursor color="orange" fuse="true" /> -->
+                <a-entity cursor="fuse: true; fuseTimeout: 100" position="0 0 -1"
+                    geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.01"
+                    material="color: black; shader: flat">
+                </a-entity>
+
+            </a-camera>
+
+        </a-entity>
+
+        <div class="meet-area">
+            Remote Video Element
+            <video id="remote-video-1" autoplay loop="true"></video>
+            <video id="remote-video-2" autoplay loop="true"></video>
+            <video id="remote-video-3" autoplay loop="true"></video>
+            <video id="remote-video-4" autoplay loop="true"></video>
+            <video id="remote-video-5" autoplay loop="true"></video>
+    
         </div>
-    </div> -->
-    <div class="meet-area">
-        <!-- Remote Video Element-->
-        <video id="remote-video-1" autoplay loop="true"></video>
-        <video id="remote-video-2" autoplay loop="true"></video>
-        <video id="remote-video-3" autoplay loop="true"></video>
-        <video id="remote-video-4" autoplay loop="true"></video>
-        <video id="remote-video-5" autoplay loop="true"></video>
 
-    </div>
-    <p>
-        <a-scene inspector="https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js">
-            <a-entity id="rig" position="0 4 0" rotation="0 0 0">
-                <!-- <a-entity id="rig" position="-0.57 0.04 0.29" rotation="-5.44 -78.39 2.47"> -->
-                <!-- looking at right screen -->
-                <!-- position="-0.57 0.04 0.29" rotation="-5.44 -78.39 2.47" -->
-                <a-camera id="cam" active="true" look-controls wasd-controls="acceleration:10">
-                    <!-- <a-cursor color="orange" fuse="true" /> -->
-                    <a-entity cursor="fuse: true; fuseTimeout: 100" position="0 0 -1"
-                        geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.01"
-                        material="color: black; shader: flat">
-                    </a-entity>
+        <!-- Upper screen -->
+        <a-curvedimage cursor-listener id="upper-screen" position="0 -0.93 2.16" rotation="45.78 0 0"
+            src="#remote-video-1" height="1.027" radius="5" theta-length="25=0" theta-start="165" material=""
+            geometry="thetaLength: 25; thetaStart: 165">
+        </a-curvedimage>
+        <!-- Middle screen -->
+        <a-curvedimage cursor-listener id="middle-screen" position="0 1.7 3.2" src="#remote-video-2" height="1.027"
+            radius="5" theta-length="25=0" theta-start="165"></a-curvedimage>
+        <!-- Right screen -->
+        <a-curvedimage id="right-screen" cursor-listener position="-3.6 1.67 0.89" src="#remote-video-3" height="1.027"
+            radius="5" theta-length="25=0" theta-start="140" material="" geometry="thetaLength: 25; thetaStart: 136.76"
+            rotation="0.08 -47.39 0">
+        </a-curvedimage>
+        <!-- Lower screen -->
+        <a-curvedimage cursor-listener id="lower-screen" position="0 4.69 1.76" rotation="-51.43 0 0"
+            src="#remote-video-4" height="1.027" radius="5" theta-length="25=0" theta-start="165" material=""
+            geometry="thetaLength: 25; thetaStart: 165">
+        </a-curvedimage>
+        <!-- Left screen -->
+        <a-curvedimage cursor-listener id="left-screen" position="3.36 1.81 1.43" src="#remote-video-5" height="1.027"
+            radius="5" theta-length="25=0" theta-start="190" material="" geometry="thetaLength: 25; thetaStart: 190"
+            rotation="0.08 45 0">
+        </a-curvedimage>
 
-                </a-camera>
+        <!-- back screen -->
+        <a-curvedimage position="-12.22 1.42 -119.13" src="#remote-video-2" height="1.027" radius="5"
+            theta-length="25=0" theta-start="190" material="height: 268.04"
+            geometry="radius: 5.05; thetaLength: 30.83; thetaStart: 297.34" rotation="-1.76 50.98 0"
+            scale="30.77 28.63 30.18">
+        </a-curvedimage>
 
-            </a-entity>
+        <a-plane src="mattblack.jpeg" position="0 0 -4" rotation="-90 0 0" width="4" height="42" color="#7BC8A4">
+        </a-plane>
 
-            <!-- Upper screen -->
-            <a-curvedimage cursor-listener id="upper-screen" position="0 -0.93 2.16" rotation="45.78 0 0"
-                src="#remote-video-1" height="1.027" radius="5" theta-length="25=0" theta-start="165" material=""
-                geometry="thetaLength: 25; thetaStart: 165">
-            </a-curvedimage>
-            <!-- Middle screen -->
-            <a-curvedimage cursor-listener id="middle-screen" position="0 1.7 3.2" src="#remote-video-2" height="1.027"
-                radius="5" theta-length="25=0" theta-start="165"></a-curvedimage>
-            <!-- Right screen -->
-            <a-curvedimage id="right-screen" cursor-listener position="-3.6 1.67 0.89" src="#remote-video-3"
-                height="1.027" radius="5" theta-length="25=0" theta-start="140" material=""
-                geometry="thetaLength: 25; thetaStart: 136.76" rotation="0.08 -47.39 0">
-            </a-curvedimage>
-            <!-- Lower screen -->
-            <a-curvedimage cursor-listener id="lower-screen" position="0 4.69 1.76" rotation="-51.43 0 0"
-                src="#remote-video-4" height="1.027" radius="5" theta-length="25=0" theta-start="165" material=""
-                geometry="thetaLength: 25; thetaStart: 165">
-            </a-curvedimage>
-            <!-- Left screen -->
-            <a-curvedimage cursor-listener id="left-screen" position="3.36 1.81 1.43" src="#remote-video-5"
-                height="1.027" radius="5" theta-length="25=0" theta-start="190" material=""
-                geometry="thetaLength: 25; thetaStart: 190" rotation="0.08 45 0">
-            </a-curvedimage>
-
-            <!-- back screen -->
-            <a-curvedimage position="-12.22 1.42 -119.13" src="#remote-video-2" height="1.027" radius="5"
-                theta-length="25=0" theta-start="190" material="height: 268.04"
-                geometry="radius: 5.05; thetaLength: 30.83; thetaStart: 297.34" rotation="-1.76 50.98 0"
-                scale="30.77 28.63 30.18">
-            </a-curvedimage>
-
-            <a-plane src="mattblack.jpeg" position="0 0 -4" rotation="-90 0 0" width="4" height="42" color="#7BC8A4">
-            </a-plane>
-
-            <a-sky src="milky.jpeg"></a-sky>
-        </a-scene>
-    </p>
+        <a-sky src="milky.jpeg"></a-sky>
+    </a-scene>
 </body>
 
 <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
-<!-- <script src="script.js"></script> -->
 <script src='https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js'></script>
 <script>
 
