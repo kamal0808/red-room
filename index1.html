@@ -113,7 +113,12 @@
                 <!-- looking at right screen -->
                 <!-- position="-0.57 0.04 0.29" rotation="-5.44 -78.39 2.47" -->
                 <a-camera id="cam" active="true" look-controls wasd-controls="acceleration:10">
-                    <a-cursor color="orange" fuse="true" fuseduration="150" />
+                    <!-- <a-cursor color="orange" fuse="true" /> -->
+                    <a-entity cursor="fuse: true; fuseTimeout: 100"
+                    position="0 0 -1"
+                    geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.01"
+                    material="color: black; shader: flat">
+          </a-entity>
 
                 </a-camera>
 
