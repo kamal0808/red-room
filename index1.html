@@ -12,17 +12,13 @@
     <meta name="apple-mobile-web-app-capable" />
     <script>
 
-        function objectToPosition (x) {
+        function objectToPosition(x) {
             return x.x + " " + x.y + " " + x.z;
         }
 
         AFRAME.registerComponent('cursor-listener', {
             init: function () {
-                var lastIndex = -1;
-                var COLORS = ['red', 'green', 'blue'];
                 this.el.addEventListener('click', function (evt) {
-                    console.log(evt.target.getAttribute('id'))
-                    console.log('I was clicked at: ', evt.detail.intersection.point);
                     let intersectionPoint = evt.detail.intersection.point;
                     var rig = document.querySelector("#rig");
                     let rigCurrentRotation = rig.getAttribute('rotation');
@@ -31,16 +27,14 @@
                     let rightScreenRotation = document.querySelector('#right-screen').getAttribute('rotation');
                     let middleScreenRotation = document.querySelector('#middle-screen').getAttribute('rotation');
 
-                    console.log('rigCurrentPosition', rigCurrentPosition)
-                    console.log('rigCurrentRotation', rigCurrentRotation)
                     rigCurrentPosition = objectToPosition(rigCurrentPosition);
                     rigCurrentRotation = objectToPosition(rigCurrentRotation);
-                    
-                    switch(evt.target.getAttribute('id')) {
+
+                    switch (evt.target.getAttribute('id')) {
                         case 'right-screen':
                             rig.setAttribute('animation', `property: position; from: ${rigCurrentPosition};  to: 0.3 0 0; `)
                             break
-                            
+
                         case 'middle-screen':
                             rig.setAttribute('animation', `property: position; from: ${rigCurrentPosition}; to: 0 0 -0.5;`)
                             break
@@ -55,9 +49,9 @@
 
                         case 'left-screen':
                             rig.setAttribute('animation', `property: position; from: ${rigCurrentPosition}; to: -0.3 0 0;`)
-                            break    
+                            break
                     }
-                    
+
                     try {
                         // console.log(event)
 
@@ -69,9 +63,9 @@
                         // console.log(`${x * 0.1} ${y * 0.1} 0`)
                         // console.log("position", `${x * 0.01 + currentX} ${y * 0.01 + currentY} 0`)
 
-                        
 
-             
+
+
                     }
                     catch (e) {
                         alert(e);
@@ -98,7 +92,7 @@
     </div>
     <div class="meet-area">
         <!-- Remote Video Element-->
-        <video id="remote-video" autoplay loop="true"  ></video>
+        <video id="remote-video" autoplay loop="true"></video>
 
         <!-- Local Video Element-->
         <video id="local-video" style="display: none;"></video>
@@ -114,11 +108,10 @@
                 <!-- position="-0.57 0.04 0.29" rotation="-5.44 -78.39 2.47" -->
                 <a-camera id="cam" active="true" look-controls wasd-controls="acceleration:10">
                     <!-- <a-cursor color="orange" fuse="true" /> -->
-                    <a-entity cursor="fuse: true; fuseTimeout: 100"
-                    position="0 0 -1"
-                    geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.01"
-                    material="color: black; shader: flat">
-          </a-entity>
+                    <a-entity cursor="fuse: true; fuseTimeout: 100" position="0 0 -1"
+                        geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.01"
+                        material="color: black; shader: flat">
+                    </a-entity>
 
                 </a-camera>
 
@@ -127,29 +120,32 @@
             <a-assets>
                 <!-- <video src="elly-intro.mp4" id="intro-video"></video> -->
                 <!-- <video id="remote-video" autoplay="true" muted  src="elly-intro.mp4" ></video> -->
-                <video id="remote-video-2"  src="elly-intro.mp4" ></video>
+                <video id="remote-video-2" src="elly-intro.mp4"></video>
 
             </a-assets>
 
             <!-- Upper screen -->
-            <a-curvedimage cursor-listener id="upper-screen" position="0 -0.93 2.16" rotation="45.78 0 0" src="#remote-video" height="1.027" radius="5"
-                theta-length="25=0" theta-start="165" material="" geometry="thetaLength: 25; thetaStart: 165">
+            <a-curvedimage cursor-listener id="upper-screen" position="0 -0.93 2.16" rotation="45.78 0 0"
+                src="#remote-video" height="1.027" radius="5" theta-length="25=0" theta-start="165" material=""
+                geometry="thetaLength: 25; thetaStart: 165">
             </a-curvedimage>
             <!-- Middle screen -->
-            <a-curvedimage cursor-listener id="middle-screen" position="0 1.7 3.2" src="#remote-video-2" height="1.027" radius="5" theta-length="25=0"
-                theta-start="165"></a-curvedimage>
+            <a-curvedimage cursor-listener id="middle-screen" position="0 1.7 3.2" src="#remote-video-2" height="1.027"
+                radius="5" theta-length="25=0" theta-start="165"></a-curvedimage>
             <!-- Right screen -->
-            <a-curvedimage id="right-screen" cursor-listener position="-3.6 1.67 0.89" src="#remote-video-2" height="1.027" radius="5"
-                theta-length="25=0" theta-start="140" material="" geometry="thetaLength: 25; thetaStart: 136.76"
-                rotation="0.08 -47.39 0">
+            <a-curvedimage id="right-screen" cursor-listener position="-3.6 1.67 0.89" src="#remote-video-2"
+                height="1.027" radius="5" theta-length="25=0" theta-start="140" material=""
+                geometry="thetaLength: 25; thetaStart: 136.76" rotation="0.08 -47.39 0">
             </a-curvedimage>
             <!-- Lower screen -->
-            <a-curvedimage cursor-listener id="lower-screen" position="0 4.69 1.76" rotation="-51.43 0 0" src="#remote-video" height="1.027" radius="5"
-                theta-length="25=0" theta-start="165" material="" geometry="thetaLength: 25; thetaStart: 165">
+            <a-curvedimage cursor-listener id="lower-screen" position="0 4.69 1.76" rotation="-51.43 0 0"
+                src="#remote-video" height="1.027" radius="5" theta-length="25=0" theta-start="165" material=""
+                geometry="thetaLength: 25; thetaStart: 165">
             </a-curvedimage>
             <!-- Left screen -->
-            <a-curvedimage cursor-listener id="left-screen" position="3.36 1.81 1.43" src="#remote-video-2" height="1.027" radius="5" theta-length="25=0"
-                theta-start="190" material="" geometry="thetaLength: 25; thetaStart: 190" rotation="0.08 45 0">
+            <a-curvedimage cursor-listener id="left-screen" position="3.36 1.81 1.43" src="#remote-video-2"
+                height="1.027" radius="5" theta-length="25=0" theta-start="190" material=""
+                geometry="thetaLength: 25; thetaStart: 190" rotation="0.08 45 0">
             </a-curvedimage>
 
             <!-- back screen -->
@@ -176,15 +172,12 @@
 
     window.addEventListener("wheel", function (event) {
         try {
-            console.log(event)
 
             let x = event.deltaX;
             let y = event.deltaY;
 
             let currentX = rig.getAttribute("position").x;
             let currentY = rig.getAttribute("position").z;
-            console.log(`${x * 0.1} ${y * 0.1} 0`)
-            console.log("position", `${x * 0.01 + currentX} ${y * 0.01 + currentY} 0`)
             rig.setAttribute("position", `${x * 0.002 + currentX} 0 ${y * 0.002 + currentY}`)
         }
         catch (e) {
@@ -197,11 +190,33 @@
     video1.src = 'elly-intro-long.mp4';
     video1.muted = true;
     video1.play();
-    
+
     let video2 = document.getElementById("remote-video-2");
     video2.src = 'elly-intro-long.mp4';
     video2.muted = true;
     video2.play();
+
+
+    const peer24 = new Peer();
+
+    peer24.on('open', () => {
+        // connect to the streamer so that they will call us
+        console.log('calling')
+        peer24.connect("1");
+    });
+
+    peer24.on("call", (call) => {
+        call.on("stream", (remoteStream) => {
+            // audio.muted = false;
+            // audio.srcObject = remoteStream;
+            video1.srcObject = remoteStream;
+            video1.play()
+        })
+        call.answer(null);
+    });
+
+
+
     // AFRAME.registerComponent('mousecontrol', {
     //     schema: {
     //         min: { type: "number", default: 5 },

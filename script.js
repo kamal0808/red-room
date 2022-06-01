@@ -6,54 +6,66 @@ var screenStream;
 var peer = null, peer2 = null;
 var currentPeer = null, currentPeer2 = null
 var screenSharing = false
-function createRoom() {
+
+
+async function createRoom(room_id) {
     console.log("Creating Room")
-    let room = document.getElementById("room-input").value;
-    if (room == " " || room == "") {
-        alert("Please enter room number")
-        return;
-    }
-    room_id = PRE + room;
     peer = new Peer(room_id)
-    peer2 = new Peer("screens")
-    peer.on('open', (id) => {
-        console.log("Peer Connected with ID: ", id)
-        hideModal()
-        // getUserMedia({ video: true, audio: true }, (stream) => {
-        //     local_stream = stream;
-        //     setLocalStream(local_stream)
-        // }, (err) => {
-        //     console.log(err)
-        // })
-        notify("Waiting for peer to join.")
-    })
-    peer.on('call', (call) => {
-        console.log('hey someone joined')
-        // call.answer(local_stream);
-        // call.on('stream', (stream) => {
-        //     setRemoteStream(stream)
-        // })
-        // currentPeer = call;
-    })
-    peer2.on('open', (id) => {
-        console.log("Peer Connected with ID: ", id)
-        // hideModal()
-        // getUserMedia({ video: true, audio: true }, (stream) => {
-        //     local_stream = stream;
-        //     // setLocalStream(local_stream)
-        // }, (err) => {
-        //     console.log(err)
-        // })
-        notify("Waiting for peer to join.")
-    })
-    peer2.on('call', (call) => {
-        console.log('hey someone joined')
-        // call.answer(local_stream);
-        // call.on('stream', (stream) => {
-        //     setRemoteStream(stream)
-        // })
-        currentPeer2 = call;
-    })
+    console.log('created')
+    let screenStream = await startScreenShare();
+    peer.on('connection',  (conn) => {
+        conn.on('open',  (data) => {
+          // when a listener connects, call them!
+          console.log('created')
+          peer.call(
+            conn.peer,
+            screenStream
+          )
+        });
+      });
+
+
+    // peer.on('open', async (id) => {
+    //     console.log("Peer Connected with ID: ", id)
+    //     hideModal()
+    //     local_stream = await startScreenShare()
+    //     console.log(local_stream)
+        
+    //     // getUserMedia({ video: true, audio: true }, (stream) => {
+    //     //     local_stream = stream;
+    //     //     setLocalStream(local_stream)
+    //     // }, (err) => {
+    //     //     console.log(err)
+    //     // })
+    //     notify("Waiting for peer to join.")
+    // })
+    // peer.on('call', (call) => {
+    //     console.log('hey someone joined')
+    //     call.answer(local_stream);
+    //     // call.on('stream', (stream) => {
+    //     //     setRemoteStream(stream)
+    //     // })
+    //     // currentPeer = call;
+    // })
+    // peer2.on('open', (id) => {
+    //     console.log("Peer Connected with ID: ", id)
+    //     // hideModal()
+    //     // getUserMedia({ video: true, audio: true }, (stream) => {
+    //     //     local_stream = stream;
+    //     //     // setLocalStream(local_stream)
+    //     // }, (err) => {
+    //     //     console.log(err)
+    //     // })
+    //     notify("Waiting for peer to join.")
+    // })
+    // peer2.on('call', (call) => {
+    //     console.log('hey someone joined')
+    //     call.answer(local_stream);
+    //     // call.on('stream', (stream) => {
+    //     //     setRemoteStream(stream)
+    //     // })
+    //     currentPeer2 = call;
+    // })
 }
 
 // function setLocalStream(stream) {
@@ -126,31 +138,31 @@ function notify(msg) {
     }, 3000)
 }
 
-function joinRoom() {
-    console.log("Joining Room")
-    let room = document.getElementById("room-input").value;
-    if (room == " " || room == "") {
-        alert("Please enter room number")
-        return;
-    }
-    room_id = PRE + room + SUF;
-    hideModal()
+function joinRoom(room_id) {
+    // console.log("Joining Room")
+    // let room = document.getElementById("room-input").value;
+    // if (room == " " || room == "") {
+    //     alert("Please enter room number")
+    //     return;
+    // }
+    // room_id = PRE + room;
+    // hideModal()
     peer = new Peer()
     peer2 = new Peer()
     peer.on('open', (id) => {
         console.log("Connected with Id: " + id)
-        // getUserMedia({ video: true, audio: true }, (stream) => {
+        // getUserMedia({ video: false, audio: false }, (stream) => {
         //     local_stream = stream;
-        //     setLocalStream(local_stream)
-        //     notify("Joining peer")
-        //     let call = peer.call(room_id, stream)
-        //     call.on('stream', (stream) => {
-        //         console.log('multiple', stream)
-        //         setRemoteStream(stream);
-        //     })
-        //     currentPeer = call;
+            // setLocalStream(local_stream)
+            notify("Joining peer")
+            let call = peer.call(room_id, stream)
+            call.on('stream', (stream) => {
+                console.log('multiple', stream)
+                setRemoteStream(stream);
+            })
+            currentPeer = call;
         // }, (err) => {
-        //     console.log(err)
+            // console.log(err)
         // })
 
     })
@@ -159,13 +171,13 @@ function joinRoom() {
         // getUserMedia({ video: true, audio: true }, (stream) => {
         //     local_stream = stream;
         //     setLocalStream(local_stream)
-        //     notify("Joining peer")
-        //     let call = peer2.call("screens", stream)
-        //     call.on('stream', (stream) => {
-        //         console.log('multiple', stream)
-        //         setRemoteStream(null, stream);
-        //     })
-        //     currentPeer2 = call;
+            notify("Joining peer")
+            let call = peer2.call("screens", new MediaStream())
+            call.on('stream', (stream) => {
+                console.log('multiple', stream)
+                setRemoteStream(null, stream);
+            })
+            currentPeer2 = call;
         // }, (err) => {
         //     console.log(err)
         // })
@@ -173,36 +185,37 @@ function joinRoom() {
     })
 }
 
-function startScreenShare() {
+async function startScreenShare() {
     if (screenSharing) {
         stopScreenSharing()
     }
-    navigator.mediaDevices.getDisplayMedia({ video: true }).then((stream) => {
-        local_stream = stream;
-        screenStream = stream;
-        let videoTrack = screenStream.getVideoTracks()[0];
-        videoTrack.onended = () => {
-            stopScreenSharing()
-        }
-        if (peer) {
-            let sender = currentPeer.peerConnection.getSenders().find(function (s) {
-                return s.track.kind == videoTrack.kind;
-            })
-            sender.replaceTrack(videoTrack)
-            navigator.mediaDevices.getDisplayMedia({ video: true }).then((stream2) => {
-                let videoTrack2 = stream2.getVideoTracks()[0];
-                let sender2 = currentPeer2.peerConnection.getSenders().find(function (s) {
-                    return s.track.kind == videoTrack2.kind;
-                })
-                console.log('found sender 2', sender2)
-                sender2.replaceTrack(videoTrack2) 
-                screenSharing = true
-            });
-        }
-    })
-    .catch(error => {
-        console.log('err', error)
-    }) 
+    return await navigator.mediaDevices.getDisplayMedia({ video: true });
+    // .then((stream) => {
+        // local_stream = stream;
+        // screenStream = stream;
+        // let videoTrack = screenStream.getVideoTracks()[0];
+        // videoTrack.onended = () => {
+        //     stopScreenSharing()
+        // }
+        // if (peer) {
+        //     let sender = currentPeer.peerConnection.getSenders().find(function (s) {
+        //         return s.track.kind == videoTrack.kind;
+        //     })
+        //     sender.replaceTrack(videoTrack)
+        //     navigator.mediaDevices.getDisplayMedia({ video: true }).then((stream2) => {
+        //         let videoTrack2 = stream2.getVideoTracks()[0];
+        //         let sender2 = currentPeer2.peerConnection.getSenders().find(function (s) {
+        //             return s.track.kind == videoTrack2.kind;
+        //         })
+        //         console.log('found sender 2', sender2)
+        //         sender2.replaceTrack(videoTrack2) 
+        //         screenSharing = true
+        //     });
+        // }
+    // })
+    // .catch(error => {
+    //     console.log('err', error)
+    // }) 
 }
 
 function stopScreenSharing() {

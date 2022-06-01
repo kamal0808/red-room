@@ -9,19 +9,13 @@
     <h1 class="title">Delta Meet</h1>
     <p id="notification" hidden></p>
     <div class="entry-modal" id="entry-modal">
-        <p>Create or Join Meeting</p>
-        <input id="room-input" class="room-input" placeholder="Enter Room ID">
+        <p>Screen 1</p>
         <div>
-            <button onclick="createRoom()">Create Room</button>
-            <button onclick="joinRoom()">Join Room</button>
+            <button onclick="createRoom('1')">Add</button>
         </div>
     </div>
     <div class="meet-area">
-        <!-- Remote Video Element-->
-        <video id="remote-video"></video>
-
-        <!-- Local Video Element-->
-        <video id="local-video"></video>
+       
         <div class="meet-controls-bar">
             <button onclick="startScreenShare()">Screen Share</button>
         </div>
@@ -31,5 +25,7 @@
 
 <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
 <script src="script.js"></script>
-
+<script>
+    createRoom('1');
+</script>
 </html>
